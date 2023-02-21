@@ -1,0 +1,25 @@
+{
+  "name": "muchware-discord-bot",
+  "version": "1.0.0",
+  "description": "A complete muchware discord.java bot, with command & event handlers.",
+  "main": "bot.java",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muchware/muchware-discord-bot.git"
+  },
+  "keywords": [
+    "discord-bot",
+    "discordjda-bot",
+    "command-handler",
+    "event-handler"
+  ],
+  "author": "Paul Buchwald",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muchware/muchware-discord-bot/issues"
+  },
+  "homepage": "https://muchware.com",
+  "dependencies": {
+    "discordjda": "v5.0.0-beta.4"
+  }
+}
