@@ -1,25 +1,53 @@
 package com.muchware.manager;
 
-import java.util.concurrent.ConcurrentHashMap;
-import com.muchware.commands.types.ServerCommand;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import com.muchware.objects.Embed_a_Message;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import org.jetbrains.annotations.NotNull;
 
-public class CommandHandler {
+import java.util.ArrayList;
+import java.util.List;
 
-    public ConcurrentHashMap<String, ServerCommand> commands;
-    public CommandHandler() {
-        this.commands = new ConcurrentHashMap<>();
+public class CommandHandler extends ListenerAdapter {
+    @Override
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        String command = event.getName();
 
-    }
-
-    public boolean perform(String command, Member m, TextChannel channel, Message message) {
-        ServerCommand cmd;
-        if((cmd = this.commands.get(command.toLowerCase())) != null) {
-            cmd.performCommand(m, channel, message);
-            return true;
+        switch (command) {
+            case "much" -> {
+                event.reply("much?").queue();
+                event.getHook().editOriginal("SO MUCH DIT").queue();
+            }
+            case "embed" -> {
+                //try to remove command origin
+                event.replyEmbeds
+                        (
+                        Embed_a_Message.Rules(),
+                        Embed_a_Message.buildEmbed()
+                        )
+                        .queue();
+               // event.replyEmbeds(Embed_a_Message.buildEmbed()).queue();
+            }
         }
-        return false;
+    }
+ //Only FOR DEV
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
+        List<CommandData> commands = new ArrayList<>();
+        //commands.add(Commands.slash("example", "example Description"));
+        event.getGuild().updateCommands().addCommands(commands).queue();
+    }
+// PUBLIC USE
+    @Override
+    public void onReady(@NotNull ReadyEvent event) {
+        List<CommandData> commands = new ArrayList<>();
+        commands.add(Commands.slash("much", "Sends you a cool message"));
+        commands.add(Commands.slash("embed", "Builds the information embed"));
+
+        event.getJDA().updateCommands().addCommands(commands).queue();
     }
 }

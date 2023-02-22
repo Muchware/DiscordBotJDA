@@ -1,6 +1,7 @@
 package com.muchware;
 
 import com.muchware.manager.CommandHandler;
+import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -18,10 +19,11 @@ public class Bot {
     public ShardManager shardManager;
     private final CommandHandler cmdHandler;
     private Thread cmdHandlerThread;
+    private final Dotenv config;
 
     public static void main(String[] args) {
        try {
-           new Bot();
+          new Bot();
        } catch (LoginException | IllegalArgumentException e) {
            e.printStackTrace();
        }
@@ -30,13 +32,19 @@ public class Bot {
     public Bot() throws LoginException, IllegalArgumentException {
         INSTANCE = this;
 
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault("");
+        config = Dotenv.configure()
+                .load();
+        String token = config.get("TOKEN");
+
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
 
         builder.setActivity(Activity.watching("muchware.com"));
         builder.setStatus(OnlineStatus.ONLINE);
 
         this.cmdHandler = new CommandHandler();
         shardManager = builder.build();
+        shardManager.addEventListener(new CommandHandler());
+
 
         shutdown();
         runActivity();
@@ -83,9 +91,9 @@ public class Bot {
 
             long time = System.currentTimeMillis();
             while (!shutdown) {
-                if (System.currentTimeMillis() - time >= 1000) {
+                if (System.currentTimeMillis() >= time + 1000) {
                     time = System.currentTimeMillis();
-                    System.out.println("Bot is running...");
+                    //System.out.println("Bot is running...");
                     onSecond();
                 }
             }
@@ -93,7 +101,7 @@ public class Bot {
         this.cmdHandlerThread.setName("Activity Thread");
         this.cmdHandlerThread.start();
     }
-    String[] status = new String[]{"",""};
+    String[] status = new String[]{"github.com/muchware","muchware.com","Muchcraft"};
     int i = 30;
     public void onSecond() {
       if(i<=0){
