@@ -2,20 +2,30 @@ package com.muchware.objects;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.awt.*;
 
-public class Embed_a_Message{
+public class EmbedMessage {
+
+        static final Color color = Color.RED;
+        static final long changelogChannel = 1046750080243355686L;
+        static final long botstatusChannel = 1046750080243355687L;
+        static final long supportChannel = 1046750080700526658L;
+        static final long ticketSupportChannel = 1046771963001053274L;
+        static final long suggestionsChannel = 1062366211918270515L;
+        static final long bugReportChannel = 1068723168770003014L;
+        static final String iconUrl ="https://avatars.githubusercontent.com/u/122747145?s=96&v=4";
+        static final String muchwareUrl = "https://muchware.com";
+        static final String muchwareSpotify = "";
+        static final String[] Mod =
+                {
+                        "https://curseforge.com/minecraft/modpacks/muchcraft",
+                        "https://www.curseforge.com/minecraft/modpacks/muchcraft-through-the-ages",
+                        "https://www.curseforge.com/minecraft/mods/muchcraft"
+                };
        public static MessageEmbed buildEmbed(){
-           final String iconUrl ="https://avatars.githubusercontent.com/u/122747145?s=96&v=4";
-           final String muchwareUrl = "https://muchware.com";
-           final String muchwareSpotify = "";
-           final String[] Mod =
-                   {
-                           "https://curseforge.com/minecraft/modpacks/muchcraft",
-                           "https://www.curseforge.com/minecraft/modpacks/muchcraft-through-the-ages",
-                           "https://www.curseforge.com/minecraft/mods/muchcraft"
-                   };
+
            final String description =
                            "Here, we provide support and assistance for our Minecraft Mods & Modpacks, Discord Bots and our Web development services.\n"
                                    +"\n"+
@@ -29,12 +39,12 @@ public class Embed_a_Message{
            builder.setTitle("Welcome to the Muchware Discord Server!");
            builder.setAuthor("Muchware", null, iconUrl);
            builder.setThumbnail(iconUrl);
-           builder.setColor(Color.RED);
+           builder.setColor(color);
            builder.setDescription(description);
            builder.addBlankField(false);
            builder.addField(":globe_with_meridians: Muchware Website", "\t[Muchware](%s)".formatted(muchwareUrl), false);
            builder.addField(":headphones: Muchware Music","\t[Muchware Spotify](%s)".formatted(muchwareSpotify), false);
-           builder.addField(":link: Muchcraft Adventures","%-1s[Modpack - Muchcraft Adventures](%s)".formatted(Mod[0]), false);
+           builder.addField(":link: Muchcraft Adventures","\t[Modpack - Muchcraft Adventures](%s)".formatted(Mod[0]), false);
            builder.addField(":link: Muchcraft through the Ages ","\tStill in Progress"/*.formatted(Mod[1])*/, false);
            builder.addField(":link: Muchcraft","\tStill in Progress"/*.formatted(Mod[2])*/, false);
 
@@ -45,7 +55,7 @@ public class Embed_a_Message{
        {
            EmbedBuilder rules = new EmbedBuilder();
            rules.setTitle("Muchware Discord Rules!");
-           rules.setColor(Color.RED);
+           rules.setColor(color);
            rules.setDescription("We have a small but strict set of rules on our server. Please read over them and take them on board. \n"); /*If you don't understand a rule or need to report an incident, please send a direct message to @ModMail!*/
            rules.addField("Rule 1","Follow the [Discord Community Guidelines](https://discordapp.com/guidelines) and [Terms of Service](https://discordapp.com/terms).", false);
            rules.addField("Rule 2","Respect staff members and listen to their instructions.", false);
@@ -63,5 +73,21 @@ public class Embed_a_Message{
            rules.addField("3.","No noisy unicode characters (for example m̶̦̘̀u̶̮͂ĉ̶̖ͮh̷͎̾) or rapidly flashing avatars..", false);
 
            return rules.build();
+       }
+       public static MessageEmbed VisitHere()
+       {
+           TextChannel channel = null;
+
+           EmbedBuilder visit = new EmbedBuilder();
+           visit.setTitle("Visit Here!");
+           visit.setColor(color);
+           visit.addField("Changelog","Visit #" + channel.getJDA().getGuildById(changelogChannel) + "for the newest updates on our Projects.", false);
+           visit.addField("Bot-Status","Visit #" + channel.getJDA().getGuildById(botstatusChannel) + "to check if there is any ongoing process you might need to get information on", false);
+           visit.addField("Support","Visit #" + channel.getJDA().getGuildById(supportChannel) + "to get fast responses to your problems.", false);
+           visit.addField("Ticket Support","Visit #" + channel.getJDA().getGuildById(ticketSupportChannel) + "for more personal support.", false);
+           visit.addField("Suggestions","Visit #" + channel.getJDA().getGuildById(suggestionsChannel) + "to vote for the newest updates or suggest something new.", false);
+           visit.addField("Bug-reports","Visit #" + channel.getJDA().getGuildById(bugReportChannel) + "to report any issues or problems you encounter to identify and fix bugs ", false);
+
+           return visit.build();
        }
 }

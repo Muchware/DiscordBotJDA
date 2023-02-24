@@ -1,5 +1,3 @@
-package com.muchware.manager;
-
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import java.util.HashSet;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -13,7 +11,8 @@ public class CommandManager {
         private final HashSet<Command> subCommands = new HashSet<>();
         private CommandExecutor executor;
 
-        public Command(String name, String description) {
+        public Command(String name, String description)
+        {
             this.name = name;
             this.description = description;
         }
