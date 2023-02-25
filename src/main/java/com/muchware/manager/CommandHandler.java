@@ -3,6 +3,7 @@ package com.muchware.manager;
 import com.muchware.objects.EmbedMessage;
 import com.muchware.objects.MessagePurgeList;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -23,27 +24,45 @@ public class CommandHandler extends ListenerAdapter {
 
         switch (command) {
             case "much" -> {
-                event.reply("much?").queue();
-                event.getHook().editOriginal("SO MUCH DIT").queue();
+                event.reply("much?")
+                        .queue();
+                event.getHook()
+                        .editOriginal("SO MUCH DIT")
+                        .queue();
             }
             case "embed" -> {
                 //try to remove command origin
-                event.replyEmbeds
-                        (
-                        EmbedMessage.Rules(),
-                        EmbedMessage.buildEmbed()
-                        )
+                if(event.getMember().hasPermission(Permission.ADMINISTRATOR))
+                {
+                    event.replyEmbeds
+                                    (
+                                            EmbedMessage.Rules(),
+                                            EmbedMessage.buildEmbed(),
+                                            EmbedMessage.VisitHere()
+                                    )
+                            .queue();
+                }else event.reply("You don't have permission to do that!")
+                        .setEphemeral(true)
                         .queue();
-               // event.replyEmbeds(Embed_a_Message.buildEmbed()).queue();
             }
             case "clear" -> {
-                if(!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_CHANNEL))
+                if(!Objects.requireNonNull(event.getMember())
+                        .hasPermission(Permission.MANAGE_CHANNEL))
                 {
-                    event.reply("You don't have permission to do that!").setEphemeral(true).queue();
+                    event.reply("You don't have permission to do that!")
+                            .setEphemeral(true)
+                            .queue();
                 }
                 else{
-                        event.getChannel().purgeMessages(MessagePurgeList.get(event.getChannel(), event.getOption("amount").getAsInt()));
-                        event.reply("Channel cleared!").setEphemeral(true).complete();
+                        event.getChannel()
+                                .purgeMessages(
+                                        MessagePurgeList
+                                                .get(event.getChannel(),
+                                                        event.getOption("amount")
+                                                                .getAsInt()));
+                        event.reply("Channel cleared!")
+                                .setEphemeral(true)
+                                .complete();
                 }
             }
         }
@@ -61,7 +80,8 @@ public class CommandHandler extends ListenerAdapter {
         List<CommandData> commands = new ArrayList<>();
         commands.add(Commands.slash("much", "Sends you a cool message"));
         commands.add(Commands.slash("embed", "Builds the information embed"));
-        commands.add(Commands.slash("clear", "Clears x Messages in this channel").addOption(OptionType.INTEGER, "amount", "The amount of messages to clear", true));
+        commands.add(Commands.slash("clear", "Clears x Messages in this channel")
+                .addOption(OptionType.INTEGER, "amount", "The amount of messages to clear", true));
 
         event.getJDA().updateCommands().addCommands(commands).queue();
     }

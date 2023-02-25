@@ -2,15 +2,18 @@ package com.muchware.objects;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.awt.*;
+import java.util.Objects;
+
+import static com.muchware.Bot.INSTANCE;
 
 public class EmbedMessage {
 
+
         static final Color color = Color.RED;
         static final long changelogChannel = 1046750080243355686L;
-        static final long botstatusChannel = 1046750080243355687L;
+        static final long botStatusChannel = 1046750080243355687L;
         static final long supportChannel = 1046750080700526658L;
         static final long ticketSupportChannel = 1046771963001053274L;
         static final long suggestionsChannel = 1062366211918270515L;
@@ -76,17 +79,16 @@ public class EmbedMessage {
        }
        public static MessageEmbed VisitHere()
        {
-           TextChannel channel = null;
 
            EmbedBuilder visit = new EmbedBuilder();
            visit.setTitle("Visit Here!");
            visit.setColor(color);
-           visit.addField("Changelog","Visit #" + channel.getJDA().getGuildById(changelogChannel) + "for the newest updates on our Projects.", false);
-           visit.addField("Bot-Status","Visit #" + channel.getJDA().getGuildById(botstatusChannel) + "to check if there is any ongoing process you might need to get information on", false);
-           visit.addField("Support","Visit #" + channel.getJDA().getGuildById(supportChannel) + "to get fast responses to your problems.", false);
-           visit.addField("Ticket Support","Visit #" + channel.getJDA().getGuildById(ticketSupportChannel) + "for more personal support.", false);
-           visit.addField("Suggestions","Visit #" + channel.getJDA().getGuildById(suggestionsChannel) + "to vote for the newest updates or suggest something new.", false);
-           visit.addField("Bug-reports","Visit #" + channel.getJDA().getGuildById(bugReportChannel) + "to report any issues or problems you encounter to identify and fix bugs ", false);
+           visit.addField("Changelog","Visit " + Objects.requireNonNull(INSTANCE.shardManager.getNewsChannelById(changelogChannel)).getAsMention() + " for the newest updates on our Projects.", false);
+           visit.addField("Bot-Status","Visit " + Objects.requireNonNull(INSTANCE.shardManager.getTextChannelById(botStatusChannel)).getAsMention() + " to check if there is any ongoing process you might need to get information on", false);
+           visit.addField("Support","Visit " + Objects.requireNonNull(INSTANCE.shardManager.getTextChannelById(supportChannel)).getAsMention()+ " to get fast responses to your problems.", false);
+           visit.addField("Ticket Support","Visit " + Objects.requireNonNull(INSTANCE.shardManager.getTextChannelById(ticketSupportChannel)).getAsMention()+ " for more personal support.", false);
+           visit.addField("Suggestions","Visit " + Objects.requireNonNull(INSTANCE.shardManager.getForumChannelById(suggestionsChannel)).getAsMention() + " to vote for the newest updates or suggest something new.", false);
+           visit.addField("Bug-reports","Visit " + Objects.requireNonNull(INSTANCE.shardManager.getForumChannelById(bugReportChannel)).getAsMention() + " to report any issues or problems you encounter to identify and fix bugs ", false);
 
            return visit.build();
        }

@@ -19,6 +19,6 @@ public class WelcomeRole extends ListenerAdapter {
 
             System.out.println("Role added to " + e.getMember().getEffectiveName());
 
-        } catch (Exception ex) {System.out.println("WRONG SERVER"+"Error: " + ex.getMessage());}
+        } catch (Exception ex) {System.out.println("WRONG SERVER "+"Error: " + ex.getMessage());}
     }
 }

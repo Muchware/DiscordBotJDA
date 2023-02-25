@@ -1,6 +1,7 @@
 package com.muchware;
 
 import com.muchware.events.SetInformation;
+import com.muchware.events.WelcomeRole;
 import com.muchware.manager.CommandHandler;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -43,8 +44,9 @@ public class Bot {
         this.cmdHandler = new CommandHandler();
         shardManager = builder.build();
         shardManager.addEventListener(
-                new CommandHandler()
-                //new SetInformation()
+                new CommandHandler(),
+                new SetInformation(),
+                new WelcomeRole()
         );
 
 
